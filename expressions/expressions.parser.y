@@ -1,5 +1,14 @@
 %{
+#include <stdio.h>
+extern FILE *yyin;
+extern int yylex (void);
 double vbltable[26];
+
+/* Called by yyparse on error.  */
+extern void yyerror (char const *s) {
+  fprintf (stderr, "%s\n", s);
+}
+
 %}
 %union {
 	double	dval;
@@ -26,7 +35,7 @@ expression:	expression '+' factor	{ $$ = $1 + $3; }
 	;
 
 factor:		factor '*' primary	{ $$ = $1 * $3; }
-	|	factor '/' primary	{ if($3==0.0) { yyerror("divide by zero"); } else { $$ = $1 / $3; } }
+	|	factor '/' primary	{ if($3==0) { yyerror("divide by zero"); } else { $$ = $1 / $3; } }
 	|	primary			{ $$ = $1; }
 	;
 
@@ -36,4 +45,12 @@ primary:	'(' expression ')'	{ $$ =  $2; }
 	|	NAME			{ $$ = vbltable[$1]; }
 	;
 %%
-
+extern int main(int argc, char **argv) {
+  ++argv, --argc;  /* skip over program name */
+  if ( argc > 0 )
+    yyin = fopen( argv[0], "r" );
+  else
+    yyin = stdin;
+     
+  return yyparse();
+}
