@@ -1,5 +1,6 @@
-This is a demonstration package for GNU Automake.
-Type 'info Automake' to read the Automake manual.
+Autotools with Lex & Yacc examples
+http://flex.sourceforge.net/manual/index.html
+http://www.gnu.org/software/bison/manual/bison.html
 
 
 autoreconf --install
