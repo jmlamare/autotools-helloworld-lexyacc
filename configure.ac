@@ -10,6 +10,7 @@ AC_CONFIG_FILES([
  expressions/Makefile
  wordcount/Makefile
  cppflex/Makefile
+ cppbison/Makefile
 ])
 AC_OUTPUT
 
